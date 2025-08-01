@@ -1,0 +1,15 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": [
+            "lib/ojdbc8_g.jar",
+            "lib/ojdbc8dms.jar",
+            "lib/simplefan.jar",
+            "lib/ojdbc8dms_g.jar"
+        ]
+    }
+}
