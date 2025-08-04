@@ -1,87 +1,89 @@
 package exam;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import util.OracleConnection;
 
 public class TBLStudentTest {
 
   public static void main(String[] args) {
-    // updateAddress("2025005", "서울시 구로구 구로동2222");
-    addStudent();
+    Scanner sc = new Scanner(System.in);
+
+    addStudent(sc);
+
+    sc.close();
   }
 
-  public static void addStudent() {
-    String stuno = System.console().readLine("학번 >>> "); // not null
-    String name = System.console().readLine("이름 >>> "); // not null
-    String age = System.console().readLine("나이 >>> "); // null 허용
-    String address = System.console().readLine("주소 >>> "); // null 허용
+  public static void addStudent(Scanner sc) {
+    System.out.print("학번 >>> ");
+    String stuno = sc.nextLine().trim();
 
-    if (stuno.length() == 0 || name.length() == 0) {
+    System.out.print("이름 >>> ");
+    String name = sc.nextLine().trim();
+
+    System.out.print("나이 >>> ");
+    String age = sc.nextLine().trim();
+
+    System.out.print("주소 >>> ");
+    String address = sc.nextLine().trim();
+
+    if (stuno.isEmpty() || name.isEmpty()) {
       System.out.println("필수 입력입니다.");
-    } else {
-      if (age.length() == 0) {
-        age = null;
-      }
-      if (address.length() == 0)
-        address = null;
-
-      insert(stuno, name, age, address);
+      return;
     }
-  }
 
-  private static void updateAddress(String stuno, String address) {
+    if (age.isEmpty())
+      age = null;
+    if (address.isEmpty())
+      address = null;
 
-    String sql = "update tbl_student set address = ? where stuno = ?";
-    try ( // try with resources : 자동 close
-        Connection connection = DriverManager.getConnection(OracleConnection.URL, OracleConnection.USERNAME,
-            OracleConnection.PASSWORD);
-        PreparedStatement pstat = connection.prepareStatement(sql);) {
-      connection.setAutoCommit(false);
-      pstat.setString(1, address);
-      pstat.setString(2, stuno);
-      pstat.executeUpdate();
-    } catch (SQLException e) {
-      System.out.println("SQL 예외 : " + e.getMessage());
-    } // finally 없음. 자동 close 구문
-
+    insert(stuno, name, age, address);
   }
 
   private static void insert(String stuno, String name, String age, String address) {
-    Connection conn = OracleConnection.getConnection();
+    Connection conn = null;
     PreparedStatement pstat = null;
-    String sql = "insert into tbl_student(stuno,name,age,address) values (?,?,?,?)";
+    String sql = "INSERT INTO tbl_student(stuno, name, age, address) VALUES (?, ?, ?, ?)";
     try {
+      conn = OracleConnection.getConnection();
       conn.setAutoCommit(false);
-      // ✅ 직접 commit 을 해야 테이블에 반영. '오라클'은 commit 은 자동, rollback 은 명령어로.
-      System.out.println("conn :" + conn.getAutoCommit());
-      pstat = conn.prepareStatement(sql);
 
+      pstat = conn.prepareStatement(sql);
       pstat.setString(1, stuno);
       pstat.setString(2, name);
-      pstat.setString(3, age); // setInt(3,null) 불가. 오라클에서는 문자열을 number 타입으로 자동캐스팅
+
+      if (age != null) {
+        pstat.setInt(3, Integer.parseInt(age));
+      } else {
+        pstat.setNull(3, java.sql.Types.INTEGER);
+      }
+
       pstat.setString(4, address);
 
-      pstat.executeUpdate(); // 이 메소드는 commit 을 직접하지 않아도 close 할때 커밋을 수행합니다.
-      int test = Integer.parseInt(name); // rollback 테스트할 예외 발생
+      pstat.executeUpdate();
+      conn.commit();
 
       System.out.println("1개 행이 저장되었습니다.");
     } catch (SQLException | NumberFormatException e) {
       try {
-        conn.rollback();
+        if (conn != null)
+          conn.rollback();
         System.out.println("롤백 했습니다.");
-        System.out.println("insert 예외 : " + e.getMessage());
-      } catch (SQLException e1) {
-      } // 오류 발생시 : insert 명령이 테이블에 반영안되도록 rollback 합니다.
+      } catch (SQLException ex) {
+        System.out.println("롤백 실패: " + ex.getMessage());
+      }
+      System.out.println("예외 발생: " + e.getMessage());
     } finally {
-      OracleConnection.close(conn); // close 가 없으면 세션이 유지. commit 안됨.
       try {
         if (pstat != null)
           pstat.close();
+        if (conn != null)
+          OracleConnection.close(conn);
       } catch (SQLException e) {
+        System.out.println("리소스 해제 오류: " + e.getMessage());
       }
     }
   }
