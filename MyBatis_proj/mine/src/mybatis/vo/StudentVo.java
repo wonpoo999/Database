@@ -12,7 +12,7 @@ import lombok.ToString;
 public class StudentVo {
   private String stuno;
   private String name;
-  private int age;
+  private Integer age;      // Wrapper 클래스 타입일 때만 null 값을 갖을 수 있습니다.
   private String address;
 
 }

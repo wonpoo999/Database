@@ -3,6 +3,9 @@
         "lib/**/*.jar",
         "mine/lib/lombok.jar",
         "mine/lib/mybatis-3.5.16.jar",
-        "mine/lib/ojdbc8.jar"
+        "mine/lib/ojdbc8.jar",
+        "lecturer/2506_Database/mybatis_proj/lib/lombok.jar",
+        "lecturer/2506_Database/mybatis_proj/lib/mybatis-3.5.16.jar",
+        "lecturer/2506_Database/mybatis_proj/lib/ojdbc8.jar"
     ]
 }

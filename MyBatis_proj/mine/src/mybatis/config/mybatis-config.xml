@@ -2,23 +2,42 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
- <!-- mybatis가 데이터베이스에 연결하기 위한 설정(config)파일 
-			https://mybatis.org/mybatis-3/ko/getting-started.html 참고  -->
-<!-- db 설정 -->
+
+<!-- ✅ MyBatis 전역 설정 파일
+     - DB 연결 설정
+     - 매퍼 파일 등록
+     - VO 별칭(alias) 설정
+     - 기타 설정 등 -->
+
 <configuration>  
+
+  <!-- ✅ 외부 설정 파일(db.properties) 불러오기 -->
+  <!-- db 접속 정보를 따로 분리해 관리할 수 있음 -->
   <properties resource="mybatis/config/db.properties"/>
-  
-  <!-- 타입 별칭 설정하기 -->
+
+  <!-- ✅ 설정 항목 -->
+  <settings>
+    <!-- DB의 snake_case 컬럼을 camelCase Java 필드로 자동 매핑 -->
+    <!-- ex) CUSTOMER_ID → customerId -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
+  <!-- ✅ VO 클래스에 대한 별칭 설정 (Alias 설정) -->
+  <!-- SQL 매퍼에서 전체 경로 대신 간단한 이름으로 사용 가능 -->
   <typeAliases>
-  		<typeAlias type="mybatis.vo.CustomerVo" alias="CustomerVo"/>
-      <typeAlias type="mybatis.vo.ProductVo" alias="ProductVo"/>
+    <typeAlias type="mybatis.vo.CustomerVo" alias="CustomerVo"/>
+    <typeAlias type="mybatis.vo.ProductVo" alias="ProductVo"/>
+    <typeAlias type="mybatis.vo.BuyVo" alias="BuyVo"/>
   </typeAliases>
-  
-  <!--  jdbc 의 db 연결정보 -->
+
+  <!-- ✅ DB 접속 정보 및 환경 설정 -->
   <environments default="development">
     <environment id="development">
+      <!-- 트랜잭션 설정 방식: JDBC 직접 사용 -->
       <transactionManager type="JDBC"/>
-      <!--  DBCP 설정 : ${} 매개변수 지정-->
+
+      <!-- DB 접속을 위한 커넥션 풀 설정 (POOLED) -->
+      <!-- db.properties 파일에 정의된 값들 사용 -->
       <dataSource type="POOLED">  
         <property name="driver" value="${driver}"/>
         <property name="url" value="${url}"/>
@@ -27,10 +46,17 @@
       </dataSource>
     </environment>
   </environments>
-  
-  <!-- SQL 매퍼 파일을 등록.    -->
+
+  <!-- ✅ SQL 매퍼 파일 등록 -->
+  <!-- 클래스 기반 (인터페이스 Mapper.java)와 리소스(XML) 파일 등록 모두 가능 -->
   <mappers>
+    <!-- Java 인터페이스로 된 매퍼 등록 (ex: BuyMapper.java) -->
+    <mapper class="mapper.BuyMapper"/>
+
+    <!-- XML 방식 매퍼 등록 (Mybatis 기본 방식) -->
     <mapper resource="mybatis/config/customer.xml"/>
     <mapper resource="mybatis/config/product.xml"/>
+    <mapper resource="mybatis/config/BuyMapper.xml"/>
   </mappers>
+
 </configuration>

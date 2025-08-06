@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 매퍼 XML은 BuyMapper.java 인터페이스와 연결됩니다 -->
+<mapper namespace="mapper.BuyMapper">
+
+    <!-- ✅ 1. 사용자 ID로 구매 내역 조회 -->
+    <!-- 호출: BuyMapper.selectByCustomerId(String customerId) -->
+    <select id="selectByCustomerId" parameterType="String" resultType="BuyVo">
+      SELECT 
+        BUY_SEQ as buyIdx,             -- DB 컬럼명 BUY_SEQ → Java 필드 buyIdx
+        CUSTOMER_ID as customerId,    -- DB 컬럼명 CUSTOMER_ID → Java 필드 customerId
+        PCODE,                         -- 상품 코드
+        QUANTITY,                      -- 구매 수량
+        BUY_DATE as buyDate           -- 구매 일자
+      FROM TBL_BUY
+      WHERE CUSTOMER_ID = #{customerId}
+    </select>
+
+    <!-- ✅ 2. 상품 코드로 구매 내역 조회 -->
+    <!-- 호출: BuyMapper.selectByPcode(String pcode) -->
+    <select id="selectByPcode" parameterType="String" resultType="BuyVo">
+      SELECT
+        BUY_SEQ as buyIdx,
+        CUSTOMER_ID as customerId,
+        PCODE,
+        QUANTITY,
+        BUY_DATE as buyDate
+      FROM TBL_BUY
+      WHERE PCODE = #{pcode}
+    </select>
+
+    <!-- ✅ 3. 연도별 구매 내역 조회 -->
+    <!-- 호출: BuyMapper.selectByYear(String year) -->
+    <select id="selectByYear" parameterType="String" resultType="BuyVo">
+      SELECT
+        BUY_SEQ as buyIdx,
+        CUSTOMER_ID as customerId,
+        PCODE,
+        QUANTITY,
+        BUY_DATE as buyDate
+      FROM TBL_BUY
+      WHERE TO_CHAR(BUY_DATE, 'yyyy') = #{year}
+    </select>
+
+    <!-- ✅ 4. 특정 상품코드 기준 구매 수량 합계 -->
+    <!-- 호출: BuyMapper.selectSumByPcode(String pcode) -->
+    <select id="selectSumByPcode" parameterType="String" resultType="int">
+      SELECT SUM(QUANTITY) FROM TBL_BUY WHERE PCODE = #{pcode}
+    </select>
+
+</mapper>

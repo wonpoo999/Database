@@ -1,0 +1,23 @@
+--사용자 구매 내역 조회 : selectByCustomer
+SELECT * from TBL_BUY where CUSTOMER_ID='mina012';
+
+-- 상품 구매 내역 조회 : selectByPcode
+SELECT * from TBL_BUY where pcode='JINRMn5';
+
+-- 년도 구매 내역 조회 : selectByYear
+SELECT * from TBL_BUY
+where to_char(BUY_DATE,'yyyy')='2024'
+
+-- 상품의 구매 수량 합계 조회 = selectSumByPcode
+SELECT sum(quantity)
+from TBL_BUY
+where pcode='JINRMn5';
+
+참고자료
+
+BuyMapperTest.java
+BuyVo.java
+BuyMapperDao.java
+BuyMapper.XML
+BuyMapper.java
+mybatis-config.XML
