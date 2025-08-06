@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor   // 모든 프로퍼티값 초기화하는 생성자 코드
 @RequiredArgsConstructor
 public class CustomerVo {
-	private final String customId;
+	private final String customerId;
     private final String name;
     private final String email;
     private final int age;
