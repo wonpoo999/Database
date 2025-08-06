@@ -1,3 +1,11 @@
+-- 시노님, 인덱스, 뷰가 남아 있을 수 있으니 아래 순서대로 제거
+
+DROP TABLE tbl_customer CASCADE CONSTRAINTS PURGE;
+DROP VIEW tbl_customer;
+DROP SYNONYM tbl_customer;
+DROP INDEX PK_tbl_customer;
+
+
 
 CREATE TABLE tbl_contract
 (

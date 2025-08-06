@@ -1,18 +1,18 @@
 -- ✅ 0. 기존 객체 제거
 DROP TABLE tbl_buy CASCADE CONSTRAINTS;
 DROP TABLE tbl_product CASCADE CONSTRAINTS;
-DROP TABLE tbl_customer# CASCADE CONSTRAINTS;
+DROP TABLE tbl_customer CASCADE CONSTRAINTS;
 DROP SEQUENCE seq_tblbuy;
 
 -- ✅ 1. 고객 테이블 생성
-CREATE TABLE tbl_customer# (
+CREATE TABLE tbl_customer (
   customer_id VARCHAR2(20) NOT NULL,
   name        VARCHAR2(20),
   email       VARCHAR2(30) NOT NULL,
   age         NUMBER(3,0) DEFAULT 0,
   reg_date    DATE DEFAULT SYSDATE,
   PRIMARY KEY (customer_id),
-  CONSTRAINT UQ_email UNIQUE (email)
+  CONSTRAINT UQ_tbl_customer_email UNIQUE (email)
 );
 
 -- ✅ 2. 상품 테이블 생성
@@ -32,8 +32,8 @@ CREATE TABLE tbl_buy (
   quantity    NUMBER       NOT NULL,
   buy_date    TIMESTAMP    NOT NULL,
   PRIMARY KEY (buy_seq),
-  CONSTRAINT FK_tbl_customer#_TO_tbl_buy FOREIGN KEY (customer_id)
-    REFERENCES tbl_customer# (customer_id),
+  CONSTRAINT FK_tbl_customer_TO_tbl_buy FOREIGN KEY (customer_id)
+    REFERENCES tbl_customer  (customer_id),
   CONSTRAINT FK_tbl_product_TO_tbl_buy FOREIGN KEY (pcode)
     REFERENCES tbl_product (pcode)
 );
@@ -46,8 +46,8 @@ CREATE SEQUENCE seq_tblbuy
   NOCYCLE;
 
 -- ✅ 5. COMMENT 주석 추가
-COMMENT ON TABLE tbl_customer# IS '고객';
-COMMENT ON COLUMN tbl_customer#.reg_date IS '등록날짜';
+COMMENT ON TABLE tbl_customer IS '고객';
+COMMENT ON COLUMN tbl_customer.reg_date IS '등록날짜';
 
 COMMENT ON TABLE tbl_product IS '상품';
 COMMENT ON COLUMN tbl_product.pcode IS '상품코드';
@@ -63,10 +63,10 @@ COMMENT ON COLUMN tbl_buy.quantity IS '구매수량';
 COMMENT ON COLUMN tbl_buy.buy_date IS '구매날짜';
 
 -- ✅ 6. 고객 데이터 입력
-INSERT INTO tbl_customer# VALUES ('mina012', '김민아', 'kimm@gmail.com', 20, TO_DATE('2025-03-10 14:23:25', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO tbl_customer# VALUES ('hongGD', '홍길동', 'gil@korea.com', 32, TO_DATE('2023-10-21 11:12:23', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO tbl_customer# VALUES ('twice', '박모모', 'momo@daum.net', 29, TO_DATE('2024-12-25 19:23:45', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO tbl_customer# VALUES ('wonder', '이나나', 'lee@naver.com', NULL, TO_DATE('2024-12-31 23:58:59', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_customer  VALUES ('mina012', '김민아', 'kimm@gmail.com', 20, TO_DATE('2025-03-10 14:23:25', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_customer  VALUES ('hongGD', '홍길동', 'gil@korea.com', 32, TO_DATE('2023-10-21 11:12:23', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_customer  VALUES ('twice', '박모모', 'momo@daum.net', 29, TO_DATE('2024-12-25 19:23:45', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_customer  VALUES ('wonder', '이나나', 'lee@naver.com', NULL, TO_DATE('2024-12-31 23:58:59', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- ✅ 7. 상품 데이터 입력
 INSERT INTO tbl_product VALUES ('DOWON123a', 'B2', '동언참치선물세트', 54000);
@@ -105,10 +105,10 @@ VALUES (seq_tblbuy.NEXTVAL, 'hongGD', 'DOWON123a', 1, TO_TIMESTAMP('2025-01-13 0
 ------------------------------------------------------------
 SELECT '📌 문제 1) age >= 30 인 고객 전체 조회 (조건: WHERE age >= 30)' AS 문제 FROM dual;
 
-SELECT '💡 입력 코드: SELECT * FROM tbl_customer# WHERE age >= 30;' AS 입력코드 FROM dual;
+SELECT '💡 입력 코드: SELECT * FROM tbl_customer  WHERE age >= 30;' AS 입력코드 FROM dual;
 
 -- ✅ 출력 결과
-SELECT * FROM tbl_customer# WHERE age >= 30;
+SELECT * FROM tbl_customer  WHERE age >= 30;
 
 
 ------------------------------------------------------------
@@ -116,10 +116,10 @@ SELECT * FROM tbl_customer# WHERE age >= 30;
 ------------------------------------------------------------
 SELECT '📌 문제 2) customer_id = ''twice'' 인 고객 이메일 조회 (조건: WHERE)' AS 문제 FROM dual;
 
-SELECT '💡 입력 코드: SELECT email FROM tbl_customer# WHERE customer_id = ''twice'';' AS 입력코드 FROM dual;
+SELECT '💡 입력 코드: SELECT email FROM tbl_customer  WHERE customer_id = ''twice'';' AS 입력코드 FROM dual;
 
 -- ✅ 출력 결과
-SELECT email FROM tbl_customer# WHERE customer_id = 'twice';
+SELECT email FROM tbl_customer  WHERE customer_id = 'twice';
 
 
 ------------------------------------------------------------
@@ -193,11 +193,11 @@ SELECT * FROM tbl_buy WHERE LOWER(pcode) LIKE '%on%';
 ------------------------------------------------------------
 SELECT '📌 문제 9) 2024년 구매 고객 ID, 이름, 날짜 조회 (JOIN + TO_CHAR)' AS 문제 FROM dual;
 
-SELECT '💡 입력 코드: SELECT c.customer_id, c.name, b.buy_date FROM tbl_customer# c JOIN tbl_buy b ON c.customer_id = b.customer_id WHERE TO_CHAR(b.buy_date, ''YYYY'') = ''2024'';' AS 입력코드 FROM dual;
+SELECT '💡 입력 코드: SELECT c.customer_id, c.name, b.buy_date FROM tbl_customer  c JOIN tbl_buy b ON c.customer_id = b.customer_id WHERE TO_CHAR(b.buy_date, ''YYYY'') = ''2024'';' AS 입력코드 FROM dual;
 
 -- ✅ 출력 결과
 SELECT c.customer_id, c.name, b.buy_date
-FROM tbl_customer# c
+FROM tbl_customer  c
 JOIN tbl_buy b ON c.customer_id = b.customer_id
 WHERE TO_CHAR(b.buy_date, 'YYYY') = '2024';
 

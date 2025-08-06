@@ -38,7 +38,7 @@ public class TblCustomerDao {
    */
   public int insert(CustomerVo vo) {
     int result = 0;
-    String sql = "INSERT INTO \"tbl_customer#\" " +
+    String sql = "INSERT INTO tbl_customer " +
                  "(customer_id, name, email, age, reg_date) " +
                  "VALUES (?, ?, ?, ?, sysdate)"; // reg_date는 현재 시간 자동 입력
 
@@ -67,7 +67,7 @@ public class TblCustomerDao {
    */
   public int update(CustomerVo vo) {
     int result = 0;
-    String sql = "UPDATE \"tbl_customer#\" SET email = ? WHERE customer_id = ?";
+    String sql = "UPDATE tbl_customer SET email = ? WHERE customer_id = ?";
 
     try (
       Connection conn = getConnection();
@@ -92,7 +92,7 @@ public class TblCustomerDao {
    */
   public int delete(String customerId) {
     int result = 0;
-    String sql = "DELETE FROM \"tbl_customer#\" WHERE customer_id = ?";
+    String sql = "DELETE FROM tbl_customer WHERE customer_id = ?";
 
     try (
       Connection conn = getConnection();
@@ -114,7 +114,7 @@ public class TblCustomerDao {
    * @return CustomerVo 객체 (고객 존재 X → null 반환)
    */
   public CustomerVo selectByPk(String customerId) {
-    String sql = "SELECT * FROM \"tbl_customer#\" WHERE customer_id = ?";
+    String sql = "SELECT * FROM tbl_customer WHERE customer_id = ?";
     CustomerVo customer = null;
 
     try (
@@ -149,7 +149,7 @@ public class TblCustomerDao {
    */
   public List<CustomerVo> selectAll() {
     List<CustomerVo> list = new ArrayList<>();
-    String sql = "SELECT * FROM \"tbl_customer#\" ORDER BY reg_date DESC";
+    String sql = "SELECT * FROM tbl_customer ORDER BY reg_date DESC";
 
     try (
       Connection conn = getConnection();

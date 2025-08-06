@@ -10,7 +10,7 @@
     "show": 495,
     "database": 4,
     "databaseName": "",
-    "canvasType": "@dineug/erd-editor/builtin-schema-sql",
+    "canvasType": "ERD",
     "language": 1,
     "tableNameCase": 4,
     "columnNameCase": 2,
@@ -48,7 +48,7 @@
     "tableEntities": {
       "nbu6MvZVdMLtoMkOXt7pZ": {
         "id": "nbu6MvZVdMLtoMkOXt7pZ",
-        "name": "tbl_customer#",
+        "name": "tbl_customer",
         "comment": "",
         "columnIds": [
           "4F-wt4hd2Aw-kKcNw3Xt_",
@@ -68,12 +68,12 @@
           "x": 26,
           "y": 26,
           "zIndex": 2,
-          "widthName": 77,
+          "widthName": 70,
           "widthComment": 60,
           "color": ""
         },
         "meta": {
-          "updateAt": 1754272283619,
+          "updateAt": 1754383957697,
           "createAt": 1754271713530
         }
       },
