@@ -1,0 +1,10 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "jdbc_proj/lib/slf4j-simple-2.0.16.jar",
+        "jdbc_proj/lib/slf4j-api-2.0.16.jar",
+        "jdbc_proj/lib/HikariCP-6.2.1.jar",
+        "jdbc_proj/lib/lombok.jar",
+        "jdbc_proj/lib/ojdbc8.jar"
+    ]
+}

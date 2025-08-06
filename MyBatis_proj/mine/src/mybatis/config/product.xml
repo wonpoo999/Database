@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="tblproduct">
+    <!-- ✅ 전체 조회 -->
+    <select id="selectAll" resultType="ProductVo">
+        SELECT * FROM tbl_product
+    </select>
+
+    <!-- ✅ 상품 코드(PK)로 조회 -->
+    <select id="selectByPcode" parameterType="String" resultType="ProductVo">
+        SELECT * FROM tbl_product WHERE pcode = #{pcode}
+    </select>
+
+    <!-- ✅ 상품 이름으로 조회 (중복 체크용) -->
+    <select id="selectByPname" parameterType="String" resultType="ProductVo">
+        SELECT * FROM tbl_product WHERE pname = #{pname}
+    </select>
+
+    <!-- ✅ 상품 등록 (시퀀스 자동 생성) -->
+    <insert id="insert" parameterType="ProductVo">
+        <selectKey keyProperty="pcode" order="BEFORE" resultType="String">
+            SELECT 'P' || LPAD(seq_product.NEXTVAL, 3, '0') FROM dual
+        </selectKey>
+        INSERT INTO tbl_product (pcode, pname, price, maker, category)
+        VALUES (#{pcode}, #{pname}, #{price}, #{maker}, #{category})
+    </insert>
+
+    <!-- ✅ 상품 삭제 -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM tbl_product WHERE pcode = #{pcode}
+    </delete>
+</mapper>
