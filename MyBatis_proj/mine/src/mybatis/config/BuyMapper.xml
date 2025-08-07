@@ -3,52 +3,103 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 이 매퍼 XML은 BuyMapper.java 인터페이스와 연결됩니다 -->
+<!-- 📌 이 매퍼 XML은 BuyMapper.java 인터페이스와 연결됩니다 -->
 <mapper namespace="mapper.BuyMapper">
 
     <!-- ✅ 1. 사용자 ID로 구매 내역 조회 -->
-    <!-- 호출: BuyMapper.selectByCustomerId(String customerId) -->
+    <!-- 호출: selectByCustomerId(String customerId) -->
     <select id="selectByCustomerId" parameterType="String" resultType="BuyVo">
-      SELECT 
-        BUY_SEQ as buyIdx,             -- DB 컬럼명 BUY_SEQ → Java 필드 buyIdx
-        CUSTOMER_ID as customerId,    -- DB 컬럼명 CUSTOMER_ID → Java 필드 customerId
-        PCODE,                         -- 상품 코드
-        QUANTITY,                      -- 구매 수량
-        BUY_DATE as buyDate           -- 구매 일자
-      FROM TBL_BUY
-      WHERE CUSTOMER_ID = #{customerId}
+        SELECT 
+            BUY_SEQ        AS buyIdx,
+            CUSTOMER_ID    AS customerId,
+            PCODE,
+            QUANTITY,
+            BUY_DATE       AS buyDate
+        FROM TBL_BUY
+        WHERE CUSTOMER_ID = #{customerId}
     </select>
 
     <!-- ✅ 2. 상품 코드로 구매 내역 조회 -->
-    <!-- 호출: BuyMapper.selectByPcode(String pcode) -->
+    <!-- 호출: selectByPcode(String pcode) -->
     <select id="selectByPcode" parameterType="String" resultType="BuyVo">
-      SELECT
-        BUY_SEQ as buyIdx,
-        CUSTOMER_ID as customerId,
-        PCODE,
-        QUANTITY,
-        BUY_DATE as buyDate
-      FROM TBL_BUY
-      WHERE PCODE = #{pcode}
+        SELECT 
+            BUY_SEQ        AS buyIdx,
+            CUSTOMER_ID    AS customerId,
+            PCODE,
+            QUANTITY,
+            BUY_DATE       AS buyDate
+        FROM TBL_BUY
+        WHERE PCODE = #{pcode}
     </select>
 
     <!-- ✅ 3. 연도별 구매 내역 조회 -->
-    <!-- 호출: BuyMapper.selectByYear(String year) -->
+    <!-- 호출: selectByYear(String year) -->
     <select id="selectByYear" parameterType="String" resultType="BuyVo">
-      SELECT
-        BUY_SEQ as buyIdx,
-        CUSTOMER_ID as customerId,
-        PCODE,
-        QUANTITY,
-        BUY_DATE as buyDate
-      FROM TBL_BUY
-      WHERE TO_CHAR(BUY_DATE, 'yyyy') = #{year}
+        SELECT 
+            BUY_SEQ        AS buyIdx,
+            CUSTOMER_ID    AS customerId,
+            PCODE,
+            QUANTITY,
+            BUY_DATE       AS buyDate
+        FROM TBL_BUY
+        WHERE TO_CHAR(BUY_DATE, 'YYYY') = #{year}
     </select>
 
     <!-- ✅ 4. 특정 상품코드 기준 구매 수량 합계 -->
-    <!-- 호출: BuyMapper.selectSumByPcode(String pcode) -->
+    <!-- 호출: selectSumByPcode(String pcode) -->
     <select id="selectSumByPcode" parameterType="String" resultType="int">
-      SELECT SUM(QUANTITY) FROM TBL_BUY WHERE PCODE = #{pcode}
+        SELECT SUM(QUANTITY)
+        FROM TBL_BUY
+        WHERE PCODE = #{pcode}
     </select>
 
+    <!-- ✅ 5. 전체 총 구매 수량 합계 -->
+    <!-- 호출: selectTotalQuantity() -->
+    <select id="selectTotalQuantity" resultType="int">
+        SELECT SUM(QUANTITY)
+        FROM TBL_BUY
+    </select>
+
+    <!-- ✅ 6. 상품코드별 구매 수량 집계 -->
+    <!-- 호출: sumByPcodeGroup() -->
+    <select id="sumByPcodeGroup" resultType="map">
+        SELECT 
+            PCODE,
+            SUM(QUANTITY) AS TOTAL
+        FROM TBL_BUY
+        GROUP BY PCODE
+    </select>
+
+    <!-- ✅ 7. 고객 ID별 구매 수량 집계 -->
+    <!-- 호출: sumByCustomerGroup() -->
+    <select id="sumByCustomerGroup" resultType="map">
+        SELECT 
+            CUSTOMER_ID,
+            SUM(QUANTITY) AS TOTAL
+        FROM TBL_BUY
+        GROUP BY CUSTOMER_ID
+    </select>
+
+    <!-- ✅ 8. 연도별 구매 수량 집계 -->
+    <!-- 호출: sumByYearGroup() -->
+    <select id="sumByYearGroup" resultType="map">
+        SELECT 
+            TO_CHAR(BUY_DATE, 'YYYY') AS YEAR,
+            SUM(QUANTITY) AS TOTAL
+        FROM TBL_BUY
+        GROUP BY TO_CHAR(BUY_DATE, 'YYYY')
+    </select>
+
+    <!-- ✅ 9. 전체 구매 내역 전체 조회 -->
+    <!-- 호출: selectAll() -->
+    <select id="selectAll" resultType="BuyVo">
+        SELECT 
+            BUY_SEQ        AS buyIdx,
+            CUSTOMER_ID    AS customerId,
+            PCODE,
+            QUANTITY,
+            BUY_DATE       AS buyDate
+        FROM TBL_BUY
+        ORDER BY BUY_SEQ
+    </select>
 </mapper>
