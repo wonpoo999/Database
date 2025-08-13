@@ -4,7 +4,7 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -397.1667,
+    "scrollTop": -98.1667,
     "scrollLeft": 0,
     "zoomLevel": 1,
     "show": 495,
@@ -535,78 +535,6 @@
         "meta": {
           "updateAt": 1754271911800,
           "createAt": 1754271813824
-        }
-      },
-      "QD70gs0u0YkYoziIAOv_n": {
-        "id": "QD70gs0u0YkYoziIAOv_n",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": false,
-        "meta": {
-          "updateAt": 1754271823064,
-          "createAt": 1754271823064
-        }
-      },
-      "3qaw4fdW4DRNxxra7ab-3": {
-        "id": "3qaw4fdW4DRNxxra7ab-3",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": false,
-        "meta": {
-          "updateAt": 1754271854016,
-          "createAt": 1754271854016
-        }
-      },
-      "l-ZBhT3mKO1IcB8JUpVqt": {
-        "id": "l-ZBhT3mKO1IcB8JUpVqt",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": false,
-        "meta": {
-          "updateAt": 1754271869136,
-          "createAt": 1754271869136
-        }
-      },
-      "ZTHTlXJI6YPVSrslGOW4x": {
-        "id": "ZTHTlXJI6YPVSrslGOW4x",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": true,
-        "meta": {
-          "updateAt": 1754271870960,
-          "createAt": 1754271870615
-        }
-      },
-      "kaD0hCTzNTu9ZV5MpmF4U": {
-        "id": "kaD0hCTzNTu9ZV5MpmF4U",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": true,
-        "meta": {
-          "updateAt": 1754271872327,
-          "createAt": 1754271871639
-        }
-      },
-      "_sWFdqlbDYkn2K95f1kf_": {
-        "id": "_sWFdqlbDYkn2K95f1kf_",
-        "name": "",
-        "tableId": "nbu6MvZVdMLtoMkOXt7pZ",
-        "indexColumnIds": [],
-        "seqIndexColumnIds": [],
-        "unique": false,
-        "meta": {
-          "updateAt": 1754271888792,
-          "createAt": 1754271888792
         }
       }
     },
