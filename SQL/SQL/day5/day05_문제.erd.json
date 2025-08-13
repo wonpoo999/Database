@@ -4,7 +4,7 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 0,
+    "scrollTop": -397.1667,
     "scrollLeft": 0,
     "zoomLevel": 1,
     "show": 495,
@@ -49,7 +49,7 @@
       "nbu6MvZVdMLtoMkOXt7pZ": {
         "id": "nbu6MvZVdMLtoMkOXt7pZ",
         "name": "tbl_customer",
-        "comment": "",
+        "comment": "고객",
         "columnIds": [
           "4F-wt4hd2Aw-kKcNw3Xt_",
           "6nT4am_uK81xZul1K4v4c",
@@ -73,7 +73,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1754383957697,
+          "updateAt": 1754614041015,
           "createAt": 1754271713530
         }
       },
